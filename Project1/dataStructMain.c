@@ -5,7 +5,7 @@
 
 void inputName(char* outputName, int size)
 {
-	scanf_s("%s", outputName, size);  
+	scanf_s("%s", outputName, size);
 }
 
 void inputUserData(int* inAge, char* inName, int nameSize, char* inPhone, int phoneSize)

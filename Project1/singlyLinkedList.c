@@ -9,7 +9,7 @@ typedef struct USERDATA
 	char name[30];
 	char phone[15];
 	USERDATA* uNext;  
-
+	
 }USERDATA;
 
 USERDATA* g_headNode = NULL;
