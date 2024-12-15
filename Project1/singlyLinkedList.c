@@ -82,7 +82,9 @@ USERDATA* searchUser(char* inputName)
 	{
 		if (strcmp(findUser->name, inputName) == 0) {
 			printf("exist!\n\n");
-			return preUser;
+
+			if (findUser == g_headNode) return findUser;
+			return preUser;   
 		}
 		preUser = findUser;
 		findUser = findUser->uNext;
@@ -91,22 +93,32 @@ USERDATA* searchUser(char* inputName)
 	return NULL;
 }
 
-void removeUser(USERDATA* preNode) 
+void removeUser(USERDATA* sendRemoveUser) 
 {
-
-	if (preNode == NULL) {
+	// ***** 지울 Node가 없을 때 ***** //
+	if (sendRemoveUser == NULL) {
 		printf("존재하지 않은 유저는 삭제가 불가합니다.\n\n");
 		return;
+	} 
+	// ***** 지울 Node가 head 일 때 ***** //
+	else if (sendRemoveUser == g_headNode) {
+		g_headNode = sendRemoveUser->uNext;
+		printf("삭제 된 유저의 정보입니다. 이름: %s, 나이: %d, 휴대폰번호: %s\n",
+			sendRemoveUser->name, sendRemoveUser->age, sendRemoveUser->phone);
+		free(sendRemoveUser);
+	}
+	// ***** 지울 Node가 head 가 아닐 때 ***** //
+	else {
+		USERDATA* removeNode = sendRemoveUser->uNext;
+		USERDATA* inPreNode = sendRemoveUser;
+		USERDATA* nextNode = removeNode->uNext; // == preNode->uNext->uNext
+
+		inPreNode->uNext = nextNode;
+		printf("삭제 된 유저의 정보입니다. 이름: %s, 나이: %d, 휴대폰번호: %s\n",
+			removeNode->name, removeNode->age, removeNode->phone);
+		free(removeNode);
 	}
 
-	USERDATA* removeNode = preNode->uNext;
-	USERDATA* inPreNode = preNode;
-	USERDATA* nextNode = removeNode->uNext; // == preNode->uNext->uNext
-
-	inPreNode->uNext = nextNode;
-	printf("삭제 된 유저의 정보입니다. 이름: %s, 나이: %d, 휴대폰번호: %s\n",
-		removeNode->name, removeNode->age, removeNode->phone);
-	free(removeNode);
 	printf("현재 유저 정보입니다. \n");
 	showUserList();
 }
